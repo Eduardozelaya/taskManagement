@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Formulário de Tarefa</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+	<h1>{% if task %}Editar{% else %}Criar{% endif %} Tarefa</h1>
+
+	<form method="POST">
+		{% csrf_token %}
+		<label for="title">Título:</label>
+		<input type="text" name="title" id="title" value="{{ task.title|default_if_none:'' }}">
+		<br>
+		<label for="description">Descrição:</label>
+		<textarea name="description" id="description">{{ task.description|default_if_none:'' }}</textarea>
+		<br>
+		<label for="due_date">Data de Vencimento:</label>
+		<input type="datetime-local" name="due_date" id="due_date" value="{{ task.due_date|date:'Y-m-d\TH:i' }}">
+		<br>
+		{{ form.as_p }}
+		<button type="submit" id="submit-btn" disabled>Salvar</button>
+	</form>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const saveButton = document.getElementById('submit-btn');
+			const inputs = document.querySelectorAll('input[type="text"], textarea, input[type="datetime-local"]');
+
+			function checkInputs() {
+				let allFilled = true;
+				inputs.forEach(input => {
+					if (input.value.trim() === '') {
+						allFilled = false;
+					}
+				});
+				saveButton.disabled = !allFilled;
+			}
+
+			inputs.forEach(input => {
+				input.addEventListener('input', checkInputs);
+			});
+
+			checkInputs();
+		});
+	</script>
+
+	<br>
+	<a href="{% url 'task_list' %}">Voltar</a> <!-- Botão para voltar à lista de tarefas -->
+</body>
+
+</html>

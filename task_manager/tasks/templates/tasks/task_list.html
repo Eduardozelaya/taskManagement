@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Lista de tarefas</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+	<h1>Lista de tarefas</h1>
+	<a href="{% url 'task_create' %}">Adicionar tarefa</a>
+	<ul>
+		{% for task in tasks %}
+		<li>
+			{{ task.title }} - {{ task.due_date }}
+			<a href="{% url 'task_update' task.pk %}">Editar</a>
+			<a href="{% url 'task_delete' task.pk %}">Excluir</a>
+		</li>
+		{% endfor %}
+	</ul>
+	<br>
+	<a href="{% url 'home' %}">Voltar</a> <!-- Botão para voltar à home -->
+</body>
+
+</html>

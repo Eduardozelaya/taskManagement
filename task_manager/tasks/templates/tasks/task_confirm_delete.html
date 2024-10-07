@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmar Exclusão</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Tem certeza que deseja excluir a tarefa "{{ task.title }}"?</h1>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="delete_button">
+            <a href="{% url 'task_list' %}">Cancelar</a>
+            <button type="submit">Excluir</button>
+        </div>
+        
+    </form>
+    <br>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Página Inicial</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+	<h1>Bem-vindo ao Gerenciador de Tarefas!</h1>
+
+	{% if user.is_authenticated %}
+		<a href="{% url 'task_list' %}">Visualizar tarefas</a>
+		<!-- Formulário para Logout -->
+		<form action="{% url 'logout' %}" method="post" style="display:inline;">
+			{% csrf_token %}
+			<button type="submit">Logout</button>
+		</form>
+	{% else %}
+		<a href="{% url 'login' %}">Login</a>
+	{% endif %}
+</body>
+
+</html>
